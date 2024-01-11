@@ -25,6 +25,11 @@ export class FeedController {
     return this.feedService.findAllPosts();
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: number): Observable<FeedPost> {
+    return this.feedService.findPostById(id);
+  }
+
   @Put(':id')
   update(
     @Param('id') id: number,

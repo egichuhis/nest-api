@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { DeleteResult, Repository, UpdateResult } from 'typeorm';
+import {
+  DeleteResult,
+  FindOneOptions,
+  Repository,
+  UpdateResult,
+} from 'typeorm';
 import { FeedPostEntity } from '../models/post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FeedPost } from '../models/post.interface';
@@ -18,6 +23,13 @@ export class FeedService {
 
   findAllPosts(): Observable<FeedPost[]> {
     return from(this.feedPostRepository.find());
+  }
+
+  findPostById(id: number): Observable<FeedPost> {
+    const findOneOptions: FindOneOptions<FeedPostEntity> = {
+      where: { id },
+    };
+    return from(this.feedPostRepository.findOne(findOneOptions));
   }
 
   updatePost(id: number, feedPost: FeedPost): Observable<UpdateResult> {
